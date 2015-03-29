@@ -1,0 +1,28 @@
+image: python2.7
+
+services:
+  - mysql
+
+env:
+  - MYSQL_INSTANCE_NAME=test
+# leave below env as default
+#  - MYSQL_USERNAME=root
+#  - MYSQL_PASSWORD #leave empty
+#  - MYSQL_PORT_3306_TCP_ADDR=mysql
+#  - MYSQL_PORT_3306_TCP_PORT=3306
+
+script:
+  - pip install -r requirements.txt
+  - mkdir -p daocloud/testresults
+  - mkdir -p daocloud/codecoverage
+  - mysql -u root -h mysql -e 'create database if not exists test;'
+  - nosetests test.py --with-xunit --xunit-file=daocloud/testresults/nosetests.xml
+  - which python && coverage run --branch test.py
+  - which python && coverage xml -o daocloud/codecoverage/coverage.xml test.py
+
+notify:
+  email:
+    recipients:
+      - sample@daocloud.io
+    on_success: on
+    on_failure: off
