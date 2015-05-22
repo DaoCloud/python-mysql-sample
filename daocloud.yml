@@ -20,9 +20,3 @@ script:
   - which python && coverage run --branch test.py
   - which python && coverage xml -o daocloud/codecoverage/coverage.xml test.py
 
-notify:
-  email:
-    recipients:
-      - sample@daocloud.io
-    on_success: on
-    on_failure: off
