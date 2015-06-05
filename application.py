@@ -14,13 +14,15 @@ def hello_world():
 
 class Storage():
   def __init__(self):
-    self.db = MySQLdb.connect(      
-      user = os.getenv('MYSQL_USERNAME', 'root'),
-      passwd = os.getenv('MYSQL_PASSWORD', ''),
-      db = os.getenv('MYSQL_INSTANCE_NAME', 'daocloud'),
-      host = os.getenv('MYSQL_PORT_3306_TCP_ADDR', 'localhost'),
-      port = int(os.getenv('MYSQL_PORT_3306_TCP_PORT', '3306'))
-      )
+    self.db = MySQLdb.connect(
+      # Fields (user, passwd, db) have fixed values provided by image daocloud/ci-mysql
+      # While fields (host, port) have dynamic values, please use env var to fetch them
+      user   = 'root',
+      passwd = '',
+      db     = 'test',
+      host   = os.getenv('MYSQL_PORT_3306_TCP_ADDR'),
+      port   = int(os.getenv('MYSQL_PORT_3306_TCP_PORT'))
+    )
 
     cur = self.db.cursor()
     cur.execute("DROP TABLE IF EXISTS scores")
