@@ -3,6 +3,11 @@ image: daocloud/ci-python:2.7
 services:
   - mysql
 
+env:
+  - MYSQL_USERNAME="root"
+  - MYSQL_PASSWORD=""
+  - MYSQL_INSTANCE_NAME="test"
+
 script:
   - pip install -r requirements.txt
   - mkdir -p daocloud/testresults
