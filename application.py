@@ -10,7 +10,7 @@ def hello_world():
   storage = Storage()
   storage.populate()
   score = storage.score()
-  return "Hello Beijing, %d!" % score
+  return "Hello Beijing 123, %d!" % score
 
 class Storage():
   def __init__(self):
