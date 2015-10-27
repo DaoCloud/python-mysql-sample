@@ -10,9 +10,7 @@ env:
 
 script:
   - pip install -r requirements.txt
-  - mkdir -p daocloud/testresults
-  - mkdir -p daocloud/codecoverage
-  - nosetests test.py --with-xunit --xunit-file=daocloud/testresults/nosetests.xml
+  - nosetests test.py --with-xunit --xunit-file=$TEST_RESULT
   - coverage run --branch test.py
-  - coverage xml -o daocloud/codecoverage/coverage.xml test.py
+  - coverage xml -o $TEST_COVERAGE test.py
 
