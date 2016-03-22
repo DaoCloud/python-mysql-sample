@@ -1,18 +1,26 @@
-image: daocloud/ci-python:2.7
+version: 2.0
 
-services:
-  - mysql
+test:
+  image: daocloud/ci-python:2.7
+  
+  services:
+    - mysql
+  
+  env:
+    - MYSQL_USERNAME="root"
+    - MYSQL_PASSWORD=""
+    - MYSQL_INSTANCE_NAME="test"
+  
+  script:
+    - pip install -r requirements.txt
+    - nosetests test.py --with-xunit --xunit-file=$TEST_RESULT
+    - coverage run --branch test.py
+    - coverage xml -o $TEST_COVERAGE test.py
+    - cat $TEST_RESULT
+    - cat $TEST_COVERAGE
 
-env:
-  - MYSQL_USERNAME="root"
-  - MYSQL_PASSWORD=""
-  - MYSQL_INSTANCE_NAME="test"
-
-script:
-  - pip install -r requirements.txt
-  - nosetests test.py --with-xunit --xunit-file=$TEST_RESULT
-  - coverage run --branch test.py
-  - coverage xml -o $TEST_COVERAGE test.py
-  - cat $TEST_RESULT
-  - cat $TEST_COVERAGE
-
+build:
+  image:
+    dockerfile_path: Dockerfile
+    build_dir: /
+    cache: true
